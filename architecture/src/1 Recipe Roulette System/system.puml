@@ -1,0 +1,26 @@
+@startuml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Container.puml
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+
+!include DEVICONS/react.puml
+!include DEVICONS/firebase.puml
+!include FONTAWESOME/user.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(rm, "Recipe User", "The sole user of the system with multiple recipes", user)
+System_Ext(um, "User Management", "User authentication and authorisation")
+
+System_Boundary(rr, "Recipe Roulette") {
+    Container(spa, "Single Page Application", "javascript and react", "Provides all the recipe functionality to customers via their web browser.", react)
+    Container(db, "Datastore", "NoSQL", "Storage of data", firebase)
+
+    Rel(spa, db, "gRPC", "Searches")
+    Rel(spa, db, "gRPC", "Stores meal and usage data")
+}
+
+Rel(rm, spa, "Uses", "HTTPS")
+Rel(spa, um, "OAuth", "Authenticates and authorises using")
+
+@enduml

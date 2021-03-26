@@ -1,0 +1,14 @@
+@startuml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Context.puml
+
+LAYOUT_WITH_LEGEND()
+
+Person(rm, "Recipe User", "The sole user of the system with multiple recipes")
+System(rr, "Recipe Roulette System", "Allows user to manage dishes, and get suggestions to cook.")
+System_Ext(um, "User Management", "User authentication and authorisation")
+
+
+Rel(rm, rr, "Uses")
+Rel(rr, um, "Authenticates users and checks authorisation")
+
+@enduml

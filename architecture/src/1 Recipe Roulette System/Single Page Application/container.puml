@@ -1,0 +1,36 @@
+@startuml
+!include https://raw.githubusercontent.com/adrianvlupu/C4-PlantUML/latest/C4_Component.puml
+
+!define DEVICONS https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/devicons
+!include DEVICONS/firebase.puml
+
+LAYOUT_WITH_LEGEND()
+
+System_Ext(um, "User Management", "User authentication and authorisation")
+Container(db, "Datastore", "NoSQL", "Storage of data", firebase)
+
+Container_Boundary(spa, "Single Page Application") {
+    Component(routing, "Routing", "React router", "Handler client side routing")
+    Component(login, "Login form", "React Component", "The login page")
+    Component(meals, "Meals Page", "React Component", "The page where the logged in user can manage stored meals including adding them to an existing meal plan")
+    Component(meal, "Meal Component", "React Component/Uniform", "Compoment for viewing and editing an individual meal")
+    Component(mealSelection, "Meal Selection Component", "Component for finding meals by name, ingredients, last used")
+    Component(mealPlans, "Meal Planner Page", "React Component", "The page where the logged in user can view,create and copy meal plans")
+    Component(mealPlan, "Meal Plan Component", "React Component/Uniform", "Component for viewing and editing an individual meal plan, including adding meals to the plan")
+    Component(mealService, "Meal Service", "JS Module", "The module for handling datastore interactions for meals")
+    Component(plannerService, "Meal Plan Service", "JS Module", "The module for handling datastore interactions for meal plans")
+}
+
+Rel(login, um, "OAuth", "Authenticates and authorises using");
+Rel(meals, mealService, "Uses");
+Rel(meals, mealSelection, "Includes");
+Rel(meal, mealService, "Uses");
+Rel(mealSelection, mealService, "Uses");
+Rel(mealPlans, plannerService, "Uses");
+Rel(mealPlans, mealPlan, "Includes");
+Rel(mealPlan, plannerService, "Uses");
+Rel(mealPlan, mealService, "Uses");
+Rel(mealPlan, mealSelection, "Uses");
+Rel(mealService, db, "Reads, Writes, Searches");
+Rel(plannerService, db, "Reads, Writes")
+@enduml
