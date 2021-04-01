@@ -10,12 +10,7 @@
       "**/.*",
       "**/node_modules/**"
     ],
-    "rewrites": [
-      {
-        "source": "**",
-        "destination": "build/index.html"
-      }
-    ]
+    "rewrites": []
   },
   "emulators": {
     "auth": {
