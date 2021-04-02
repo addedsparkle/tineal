@@ -1,60 +1,125 @@
 import React from 'react';
 import './App.css';
-import { Grid, Icon } from 'semantic-ui-react';
+import {
+  Grid,
+  Icon,
+  Header,
+  Tab,
+  Segment,
+} from 'semantic-ui-react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Switch,
+  Link,
+} from 'react-router-dom';
+import CreateMeal from './components/CreateMeal';
 
 const CreateMealIconLink = () => (
-  <Icon.Group size="huge">
-    <Icon circular link name="food" color="green" />
-    <Icon corner name="add" />
-  </Icon.Group>
+  <Link to="/meals/create" aria-label="Create new meal">
+    <Header icon>
+      <Icon link name="food" />
+      Add a new meal
+    </Header>
+  </Link>
 );
 
 const ViewMealIconLink = () => (
-  <Icon.Group size="huge">
-    <Icon circular link name="food" color="green" />
-    <Icon corner name="search" />
-  </Icon.Group>
+  <Link to="/meals" aria-label="View all meals">
+    <Header icon>
+      <Icon link name="list" />
+      View meals
+    </Header>
+  </Link>
 );
 
 const CreatePlanIconLink = () => (
-  <Icon.Group size="huge">
-    <Icon circular link name="list alternate" color="green" />
-    <Icon corner name="add" />
-  </Icon.Group>
+  <Link to="/plans/create" aria-label="Create new meal plan">
+    <Header icon>
+      <Icon link name="list alternate" />
+      Add a new meal plan
+    </Header>
+  </Link>
 );
 
 const ViewPlanIconLink = () => (
-  <Icon.Group size="huge">
-    <Icon circular link name="list alternate" color="green" />
-    <Icon corner name="search" />
-  </Icon.Group>
+  <Link to="/plans" aria-label="View all meal plans">
+    <Header icon>
+      <Icon link name="list" />
+      View meal plans
+    </Header>
+  </Link>
 );
+
+const MealPane = () => (
+  <Grid columns={2} stackable textAlign="center">
+    <Grid.Row verticalAlign="middle">
+      <Grid.Column>
+        <CreateMealIconLink />
+      </Grid.Column>
+      <Grid.Column>
+        <ViewMealIconLink />
+      </Grid.Column>
+    </Grid.Row>
+  </Grid>
+);
+
+const PlansPane = () => (
+  <Grid columns={2} stackable textAlign="center">
+    <Grid.Row verticalAlign="middle">
+      <Grid.Column>
+        <CreatePlanIconLink />
+      </Grid.Column>
+      <Grid.Column>
+        <ViewPlanIconLink />
+      </Grid.Column>
+    </Grid.Row>
+  </Grid>
+);
+
+const panes = [
+  {
+    menuItem: {
+      key: 'meals',
+      icon: 'food',
+      content: 'Meals',
+    },
+    render: () => (
+      <Tab.Pane>
+        <MealPane />
+      </Tab.Pane>
+    ),
+  },
+  {
+    menuItem: { key: 'plans', icon: 'list alternate', content: 'Plans' },
+    render: () => (<Tab.Pane><PlansPane /></Tab.Pane>),
+  },
+];
 
 function App() {
   return (
     <div className="App">
-      <Grid columns={2}>
-        <Grid.Row>
-          <Grid.Column>
-            <CreateMealIconLink />
-            <h3>Create Meal</h3>
-          </Grid.Column>
-          <Grid.Column>
-            <ViewMealIconLink />
-            <h3>View Meals</h3>
-          </Grid.Column>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Column>
-            <CreatePlanIconLink />
-            <h3>Create Plan</h3>
-          </Grid.Column>
-          <Grid.Column>
-            <ViewPlanIconLink />
-            <h3>View Plans</h3>
-          </Grid.Column>
-        </Grid.Row>
-      </Grid>
+      <Segment inverted color="olive">
+        <Header size="huge" icon>
+          <Icon loading name="asterisk" />
+          <Header.Content>Recipe Roulette</Header.Content>
+        </Header>
+      </Segment>
+      <Router>
+        <Segment padded textAlign="center">
+          <Tab panes={panes} />
+        </Segment>
+        <Switch>
+          <Route path="/meals/create">
+            <CreateMeal />
+          </Route>
+          <Route path="/">
+            <Header>
+              Choose a task to perform from the menu
+            </Header>
+          </Route>
+        </Switch>
+      </Router>
     </div>
   );
 }
