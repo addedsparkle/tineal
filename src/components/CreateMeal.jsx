@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import React, { useState } from 'react';
 
 import {
@@ -8,14 +9,21 @@ import {
   Input,
   Segment,
   Grid,
+  Header,
 } from 'semantic-ui-react';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faFish, faDrumstickBite, faCarrot } from '@fortawesome/free-solid-svg-icons';
+import Carrot from './icons/Carrot';
+import Fish from './icons/Fish';
+import Pork from './icons/Pork';
+import Chicken from './icons/Chicken';
+import Cow from './icons/Cow';
+import Sheep from './icons/Sheep';
 
-const constructNameStep = (currentStep, name) => {
-  const active = currentStep === 0 && 'active';
+import './CreateMeal.css';
+
+const NameStep = ({ currentStep, name }) => {
+  const active = currentStep === 0;
   return (
-    <Step active={active} completed={name}>
+    <Step active={active} completed={!!name}>
       <Icon name="pencil" />
       <Step.Content>
         <Step.Title>Name</Step.Title>
@@ -25,7 +33,7 @@ const constructNameStep = (currentStep, name) => {
   );
 };
 
-const constructIngredientStep = (currentStep, ingredient) => {
+const IngredientStep = ({ currentStep, ingredient }) => {
   const active = currentStep === 1;
   const disabled = currentStep < 1;
 
@@ -40,7 +48,7 @@ const constructIngredientStep = (currentStep, ingredient) => {
   );
 };
 
-const constructSaveStep = (currentStep) => {
+const SaveStep = ({ currentStep }) => {
   const active = currentStep === 2;
 
   return (
@@ -54,19 +62,38 @@ const constructSaveStep = (currentStep) => {
   );
 };
 
+const IngredientButton = ({ update, label, children }) => (
+  <Button
+    basic
+    fluid
+    icon
+    onClick={() => update()}
+  >
+    {children}
+    <Header as="h5">{label}</Header>
+  </Button>
+);
+
 const CreateMeal = () => {
   const [currentStep, setCurrentStep] = useState(0);
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const [ingredient, setIngredient] = useState();
+
+  const ingredients = [
+    { value: 'fish', label: 'Fish', icon: (<Fish />) },
+    { value: 'chicken', label: 'Chicken', icon: (<Chicken />) },
+    { value: 'beef', label: 'Beef', icon: (<Cow />) },
+    { value: 'pork', label: 'Pork', icon: (<Pork />) },
+    { value: 'lamb', label: 'Lamb/Mutton', icon: (<Sheep />) },
+    { value: 'vegetarian', label: 'Vegetarian', icon: (<Carrot />) },
+  ];
 
   return (
     <Container>
       <Step.Group attached widths={3}>
-
-        { constructNameStep(currentStep, name) }
-        { constructIngredientStep(currentStep, ingredient) }
-        { constructSaveStep(currentStep) }
-
+        <NameStep currentStep={currentStep} name={name} />
+        <IngredientStep currentStep={currentStep} ingredient={ingredient} />
+        <SaveStep currentStep={currentStep} />
       </Step.Group>
       { currentStep === 0 && (
         <Segment attached>
@@ -76,54 +103,39 @@ const CreateMeal = () => {
       )}
       { currentStep === 1 && (
         <Segment attached padded>
-          <Grid centered columns={5}>
-            <Grid.Column>
-              <Button onClick={() => { setIngredient('fish'); setCurrentStep(currentStep + 1); }}>
-                <Icon>
-                  <FontAwesomeIcon icon={faFish} />
-                </Icon>
-              </Button>
-            </Grid.Column>
-            <Grid.Column>
-              <Button onClick={() => { setIngredient('chicken'); setCurrentStep(currentStep + 1); }}>
-                <Icon>
-                  <FontAwesomeIcon icon={faDrumstickBite} />
-                </Icon>
-              </Button>
-            </Grid.Column>
-            <Grid.Column>
-              <Button onClick={() => { setIngredient('beef'); setCurrentStep(currentStep + 1); }}>
-                <Icon>
-                  <FontAwesomeIcon icon={faDrumstickBite} />
-                </Icon>
-              </Button>
-            </Grid.Column>
-            <Grid.Column>
-              <Button onClick={() => { setIngredient('pork'); setCurrentStep(currentStep + 1); }}>
-                <Icon>
-                  <FontAwesomeIcon icon={faDrumstickBite} />
-                </Icon>
-              </Button>
-            </Grid.Column>
-            <Grid.Column>
-              <Button onClick={() => { setIngredient('vegetable'); setCurrentStep(currentStep + 1); }}>
-                <Icon>
-                  <FontAwesomeIcon icon={faCarrot} />
-                </Icon>
-              </Button>
-            </Grid.Column>
+          <Grid centered columns={ingredients.length}>
+            { ingredients.map(({ value, label, icon }) => (
+              <Grid.Column>
+                <IngredientButton
+                  update={() => {
+                    setIngredient(value);
+                    setCurrentStep(currentStep + 1);
+                  }}
+                  label={label}
+                >
+                  {icon}
+                </IngredientButton>
+              </Grid.Column>
+            ))}
           </Grid>
-          Ingredient icons made by
-          <a href="https://www.freepik.com" title="Freepik">Freepik</a>
-          from
-          <a href="https://www.flaticon.com/" title="Flaticon">www.flaticon.com</a>
+          <span className="footer">
+            Ingredient icons made by
+            <a href="https://www.freepik.com" title="Freepik"> Freepik </a>
+            from
+            <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com </a>
+          </span>
+          <br />
         </Segment>
       )}
-      <br />
-      {currentStep}
-      { name }
-      { ingredient }
-
+      { currentStep === 2 && (
+        <Segment attached padded>
+          <Header as="h5">{name}</Header>
+          <Header as="h5">{ingredient}</Header>
+          <Button>
+            Save
+          </Button>
+        </Segment>
+      )}
     </Container>
 
   );
