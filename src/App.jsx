@@ -1,6 +1,7 @@
 import React from 'react';
 import './App.css';
 import {
+  Container,
   Grid,
   Icon,
   Header,
@@ -99,26 +100,28 @@ const panes = [
 function App() {
   return (
     <div className="App">
-      <Segment inverted color="olive">
+      <Segment inverted color="yellow">
         <Header size="huge" icon>
           <Icon loading name="asterisk" />
           <Header.Content>Recipe Roulette</Header.Content>
         </Header>
       </Segment>
       <Router>
-        <Segment padded textAlign="center">
-          <Tab panes={panes} />
-        </Segment>
-        <Switch>
-          <Route path="/meals/create">
-            <CreateMeal />
-          </Route>
-          <Route path="/">
-            <Header>
-              Choose a task to perform from the menu
-            </Header>
-          </Route>
-        </Switch>
+        <Container>
+          <Segment padded textAlign="center">
+            <Tab panes={panes} />
+          </Segment>
+          <Switch>
+            <Route path="/meals/create">
+              <CreateMeal />
+            </Route>
+            <Route path="/">
+              <Header>
+                Choose a task to perform from the menu
+              </Header>
+            </Route>
+          </Switch>
+        </Container>
       </Router>
     </div>
   );
