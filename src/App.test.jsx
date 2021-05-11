@@ -2,11 +2,9 @@ import React from 'react';
 import { render, fireEvent, screen } from '@testing-library/react';
 import App from './App';
 
-
 describe('The App component', () => {
-
   describe('when tab menu is set to Meals', () => {
-    beforeEach( () => render(<App />))
+    beforeEach(() => render(<App />));
     test('renders link to create a meal', () => {
       const linkElement = screen.getByText(/Add a new meal/i);
       expect(linkElement).toBeInTheDocument();
@@ -29,11 +27,10 @@ describe('The App component', () => {
   });
 
   describe('when tab menu is set to plans', () => {
-
-    beforeEach( () => {
-      render(<App />)
-      fireEvent.click(screen.getByText('Plans'))
-    })
+    beforeEach(() => {
+      render(<App />);
+      fireEvent.click(screen.getByText('Plans'));
+    });
     test('renders link to create a plan', () => {
       const linkElement = screen.getByText(/Add a new meal plan/i);
       expect(linkElement).toBeInTheDocument();
