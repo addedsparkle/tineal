@@ -24,7 +24,7 @@ function App() {
     <div className="App">
       <Segment inverted color="yellow">
         <Header size="huge" icon>
-          <Icon loading name="asterisk" />
+          <Icon name="asterisk" />
           <Header.Content>Recipe Roulette</Header.Content>
         </Header>
       </Segment>

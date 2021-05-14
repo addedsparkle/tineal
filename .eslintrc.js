@@ -1,5 +1,5 @@
 module.exports = {
-  extends: ['airbnb', 'airbnb/hooks', 'plugin:testing-library/react'],
+  extends: ['react-app', 'airbnb', 'airbnb/hooks', 'plugin:testing-library/react'],
   plugins: ['jest', 'testing-library'],
   env: {
     'jest/globals': true,
