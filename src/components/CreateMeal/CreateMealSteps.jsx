@@ -32,17 +32,10 @@ CreateMealStep.propTypes = {
   icon: PropTypes.string.isRequired,
 };
 
-const createMealSteps = [
-  { name: 'Name', description: 'Name for the meal', icon: 'pencil' },
-  { name: 'Key Ingredient', description: 'Key Ingredient in the meal', icon: 'puzzle piece' },
-  { name: 'Recipe', description: 'Full ingredients and steps to create this meal', icon: 'numbered list' },
-  { name: 'Review', description: 'Review and save meal', icon: 'clipboard check' },
-];
-
-const CreateMealSteps = ({ currentStep }) => (
-  <Step.Group attached widths={createMealSteps.length}>
+const CreateMealSteps = ({ currentStep, steps }) => (
+  <Step.Group attached widths={steps.length}>
     {
-      createMealSteps.map(({ name, description, icon }, index) => (
+      steps.map(({ name, description, icon }, index) => (
         <CreateMealStep
           name={name}
           description={description}
@@ -57,6 +50,11 @@ const CreateMealSteps = ({ currentStep }) => (
 
 CreateMealSteps.propTypes = {
   currentStep: PropTypes.number.isRequired,
+  steps: PropTypes.arrayOf(PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    description: PropTypes.string.isRequired,
+    icon: PropTypes.string.isRequired,
+  })).isRequired,
 };
 
 export default CreateMealSteps;

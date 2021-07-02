@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -21,32 +21,37 @@ const ingredients = [
   { value: 'vegetarian', label: 'Vegetarian', icon: (<Carrot />) },
 ];
 
-const IngredientSelector = ({ onSelect }) => (
-  <div>
-    <Grid centered columns={ingredients.length}>
-      { ingredients.map(({ value, label, icon }) => (
-        <Grid.Column>
+const IngredientSelector = ({ onSelect }) => {
+  const [selected, setSelected] = useState('');
 
-          <Button
-            basic
-            fluid
-            icon
-            onClick={() => onSelect(value)}
-          >
-            {icon}
-            <Header as="h5">{label}</Header>
-          </Button>
-        </Grid.Column>
-      ))}
-    </Grid>
-    <span className="footer">
-      Ingredient icons made by
-      <a href="https://www.freepik.com" title="Freepik"> Freepik </a>
-      from
-      <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com </a>
-    </span>
-  </div>
-);
+  return (
+    <div>
+      <Grid centered columns={ingredients.length}>
+        { ingredients.map(({ value, label, icon }) => (
+          <Grid.Column>
+
+            <Button
+              basic
+              fluid
+              icon
+              color={selected === value && 'yellow'}
+              onClick={() => { onSelect(value); setSelected(value); }}
+            >
+              {icon}
+              <Header as="h5">{label}</Header>
+            </Button>
+          </Grid.Column>
+        ))}
+      </Grid>
+      <span className="footer">
+        Ingredient icons made by
+        <a href="https://www.freepik.com" title="Freepik"> Freepik </a>
+        from
+        <a href="https://www.flaticon.com/" title="Flaticon"> www.flaticon.com </a>
+      </span>
+    </div>
+  );
+};
 
 IngredientSelector.propTypes = {
   onSelect: PropTypes.func.isRequired,
