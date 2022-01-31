@@ -1,102 +1,55 @@
 import React from 'react';
-import {
-  Grid,
-  Icon,
-  Header,
-  Tab,
-  Segment,
-} from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
+import MaterialLink from '@mui/material/Link';
+import DinnerDiningIcon from '@mui/icons-material/DinnerDining';
+import FeaturedPlayListIcon from '@mui/icons-material/FeaturedPlayList';
+import {
+  Typography,
+  Grid,
+  Box,
+  Paper,
+} from '@mui/material';
+import { styled } from '@mui/material/styles';
 
-const CreateMealIconLink = () => (
-  <Link to="/meals/new" aria-label="Create new meal">
-    <Header icon>
-      <Icon link name="food" />
-      Add a new meal
-    </Header>
-  </Link>
-);
+const Item = styled(Paper)(({ theme }) => ({
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: 'center',
+}));
 
 const ViewMealIconLink = () => (
-  <Link to="/meals" aria-label="View all meals">
-    <Header icon>
-      <Icon link name="list" />
-      View meals
-    </Header>
-  </Link>
-);
-
-const CreatePlanIconLink = () => (
-  <Link to="/plans/create" aria-label="Create new meal plan">
-    <Header icon>
-      <Icon link name="list alternate" />
-      Add a new meal plan
-    </Header>
-  </Link>
+  <MaterialLink component={Link} to="/meals" aria-label="View all meals">
+    <Typography variant="h5">
+      <DinnerDiningIcon sx={{ fontSize: 120 }} />
+      <p>View meals</p>
+    </Typography>
+  </MaterialLink>
 );
 
 const ViewPlanIconLink = () => (
-  <Link to="/plans" aria-label="View all meal plans">
-    <Header icon>
-      <Icon link name="list" />
-      View meal plans
-    </Header>
-  </Link>
+  <MaterialLink to="/plans" aria-label="View all meal plans">
+    <Typography variant="h5">
+      <FeaturedPlayListIcon sx={{ fontSize: 120 }} />
+      <p>View plans</p>
+    </Typography>
+  </MaterialLink>
 );
-
-const MealPane = () => (
-  <Grid columns={2} stackable textAlign="center">
-    <Grid.Row verticalAlign="middle">
-      <Grid.Column>
-        <CreateMealIconLink />
-      </Grid.Column>
-      <Grid.Column>
-        <ViewMealIconLink />
-      </Grid.Column>
-    </Grid.Row>
-  </Grid>
-);
-
-const PlansPane = () => (
-  <Grid columns={2} stackable textAlign="center">
-    <Grid.Row verticalAlign="middle">
-      <Grid.Column>
-        <CreatePlanIconLink />
-      </Grid.Column>
-      <Grid.Column>
-        <ViewPlanIconLink />
-      </Grid.Column>
-    </Grid.Row>
-  </Grid>
-);
-
-const panes = [
-  {
-    menuItem: {
-      key: 'meals',
-      icon: 'food',
-      content: 'Meals',
-    },
-    render: () => (
-      <Tab.Pane>
-        <MealPane />
-      </Tab.Pane>
-    ),
-  },
-  {
-    menuItem: { key: 'plans', icon: 'list alternate', content: 'Plans' },
-    render: () => (
-      <Tab.Pane>
-        <PlansPane />
-      </Tab.Pane>
-    ),
-  },
-];
 
 const Home = () => (
-  <Segment padded textAlign="center">
-    <Tab panes={panes} />
-  </Segment>
+  <Box sx={{ flexGrow: 1 }}>
+    <Grid container spacing={2}>
+      <Grid item xs={6}>
+        <Item>
+          <ViewMealIconLink />
+        </Item>
+      </Grid>
+      <Grid item xs={6}>
+        <Item>
+          <ViewPlanIconLink />
+        </Item>
+      </Grid>
+    </Grid>
+  </Box>
 );
 
 export default Home;

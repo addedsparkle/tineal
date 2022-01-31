@@ -1,53 +1,64 @@
-import React, { useState } from 'react';
-import { Menu, Icon } from 'semantic-ui-react';
+import React from 'react';
+import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import { useAuth } from 'reactfire';
+import MaterialLink from '@mui/material/Link';
+import {
+  AppBar,
+  Box,
+  Paper,
+  Toolbar,
+  Typography,
+} from '@mui/material';
 
-const MainMenu = () => {
-  const [activeItem, setActiveItem] = useState('home');
-  const auth = useAuth();
-  const signOut = async () => {
-    await auth.signOut();
-  };
+const MainMenu = ({ location }) => (
+  <Box sx={{ textAlign: 'center', paddingBottom: 5, flexGrow: 1 }}>
+    <Paper sx={{ backgroundColor: 'primary.main' }}>
+      <AppBar position="static">
+        <Toolbar>
+          <Typography variant="h4" sx={{ flexGrow: 1 }}>
+            Recipe Roulette
+          </Typography>
+          <Typography variant="h6" sx={{ marginLeft: 20 }}>
+            <MaterialLink
+              component={Link}
+              to="/"
+              aria-label="Home"
+              underline={location === 'home' ? 'always' : 'hover'}
+              color="inherit"
+            >
+              Home
+            </MaterialLink>
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ marginLeft: 20 }}>
+            <MaterialLink
+              component={Link}
+              to="/meals"
+              aria-label="Meals"
+              underline={location === 'meals' ? 'always' : 'hover'}
+              color="inherit"
+            >
+              Meals
+            </MaterialLink>
+          </Typography>
+          <Typography variant="h6" component="div" sx={{ marginLeft: 20 }}>
+            <MaterialLink
+              component={Link}
+              to="/plans"
+              aria-label="Plans"
+              underline={location === 'plans' ? 'always' : 'hover'}
+              color="inherit"
+            >
+              Plans
+            </MaterialLink>
+          </Typography>
+        </Toolbar>
+      </AppBar>
+    </Paper>
+  </Box>
+);
 
-  return (
-    <Menu icon="labeled" pointing vertical>
-      <Menu.Item as={Link} name="home" to="/" onClick={() => setActiveItem('home')} active={activeItem === 'home'}>
-        <Icon name="home" />
-        Home
-      </Menu.Item>
-      <Menu.Item
-        as={Link}
-        to="/meals"
-        onClick={() => setActiveItem('viewmeals')}
-        active={activeItem === 'viewmeals'}
-      >
-        <Icon name="food" />
-        View Meals
-      </Menu.Item>
-      <Menu.Item
-        as={Link}
-        name="createmeal"
-        to="/meals/new"
-        onClick={() => setActiveItem('newmeal')}
-        active={activeItem === 'newmeal'}
-      >
-        <Icon name="add circle" />
-        New Meal
-      </Menu.Item>
-      <Menu.Item as={Link} to="/plans" onClick={() => setActiveItem('viewplans')} active={activeItem === 'viewplans'}>
-        <Icon name="list" />
-        Plans
-      </Menu.Item>
-      <Menu.Item as={Link} to="/plans/new" onClick={() => setActiveItem('newplan')} active={activeItem === 'newplan'}>
-        <Icon name="add square" />
-        New Plan
-      </Menu.Item>
-      <Menu.Item onClick={signOut} position="right">
-        <Icon name="sign-out" />
-      </Menu.Item>
-    </Menu>
-  );
+MainMenu.propTypes = {
+  location: PropTypes.string.isRequired,
 };
 
 export default MainMenu;

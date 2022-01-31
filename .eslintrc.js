@@ -1,6 +1,6 @@
 module.exports = {
-  extends: ['react-app', 'airbnb', 'airbnb/hooks', 'plugin:testing-library/react'],
-  plugins: ['jest', 'testing-library'],
+  extends: ['react-app', 'airbnb', 'airbnb/hooks'],
+  plugins: ['jest'],
   env: {
     'jest/globals': true,
     browser: true,
