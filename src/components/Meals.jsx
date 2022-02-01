@@ -8,21 +8,11 @@ import {
   TableCell,
   Paper,
 } from '@mui/material';
+import { useMeals } from '../providers/MealsProvider';
 
 const Meals = () => {
-  const meals = [{
-    name: 'One Pot Savoury Chicken',
-    mainIngredient: 'Chicken',
-  },
-  {
-    name: 'Keema Matar',
-    mainIngredient: 'Beef',
-  },
-  {
-    name: 'Teriyaki Salmon Rice',
-    mainIngredient: 'Fish',
-  }];
-
+  const meals = useMeals();
+  console.log(meals);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 650 }} aria-label="simple table">
@@ -49,5 +39,4 @@ const Meals = () => {
     </TableContainer>
   );
 };
-
 export default Meals;
