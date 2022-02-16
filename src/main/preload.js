@@ -5,8 +5,11 @@ contextBridge.exposeInMainWorld('electron', {
     myPing() {
       ipcRenderer.send('ipc-example', 'ping');
     },
+    readCatalog() {
+      ipcRenderer.send('read-catalog');
+    },
     on(channel, func) {
-      const validChannels = ['ipc-example'];
+      const validChannels = ['ipc-example', 'read-catalog'];
       if (validChannels.includes(channel)) {
         // Deliberately strip event as it includes `sender`
         ipcRenderer.on(channel, (event, ...args) => func(...args));
@@ -19,5 +22,5 @@ contextBridge.exposeInMainWorld('electron', {
         ipcRenderer.once(channel, (event, ...args) => func(...args));
       }
     },
-  },
+  }
 });

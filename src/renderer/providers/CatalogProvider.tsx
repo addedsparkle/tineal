@@ -1,56 +1,15 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
+import Catalog from './Catalog';
 
 /* eslint react/prop-types: 0 */
 
-const meals: Meal[] = [
-  {
-    id: 1,
-    name: 'One Pot Savoury Chicken',
-    mainIngredient: 'Chicken',
-  },
-  {
-    id: 2,
-    name: 'Keema Matar',
-    mainIngredient: 'Beef',
-  },
-  {
-    id: 3,
-    name: 'Teriyaki Salmon Rice',
-    mainIngredient: 'Fish',
-  },
-];
-
-const plans: Plan[] = [
-  {
-    id: 1,
-    startDate: '2022/02/07',
-    meals: [1, 3],
-  },
-];
-
-interface Meal {
-  id: number;
-  name: string;
-  mainIngredient: string;
-}
-
-interface Plan {
-  id: number;
-  startDate: string;
-  meals: number[];
-}
-
-interface Catalog {
-  meals: Meal[];
-  plans: Plan[];
-}
-
 const CatalogContext = React.createContext<Catalog | undefined>(undefined);
 
-const CatalogProvider: React.FunctionComponent = ({ children }) => {
+
+const CatalogProvider: React.FunctionComponent<{ children?: ReactNode, value: Catalog }> = (props: { children?: ReactNode, value: Catalog }) => {
   return (
-    <CatalogContext.Provider value={{ meals, plans }}>
-      {children}
+    <CatalogContext.Provider value={props.value}>
+      {props.children}
     </CatalogContext.Provider>
   );
 };
